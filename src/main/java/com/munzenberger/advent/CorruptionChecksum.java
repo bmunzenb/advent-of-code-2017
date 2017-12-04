@@ -1,31 +1,31 @@
 package com.munzenberger.advent;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 public class CorruptionChecksum {
 
-	public static List<int[]> parse(String input) {
+	public static List<int[]> decode(Path source) throws IOException {
 
-		List<int[]> parsed = new ArrayList<>();
+		return Files.lines(source).map(s -> decode(s)).collect(Collectors.toList());
+	}
 
-		StringTokenizer rows = new StringTokenizer(input, "\r\n");
-		while (rows.hasMoreTokens()) {
+	public static int[] decode(String string) {
 
-			StringTokenizer cols = new StringTokenizer(rows.nextToken());
+		StringTokenizer values = new StringTokenizer(string);
 
-			int[] data = new int[cols.countTokens()];
-			int i = 0;
+		int[] data = new int[values.countTokens()];
+		int i = 0;
 
-			while (cols.hasMoreTokens()) {
-				data[i++] = Integer.parseInt(cols.nextToken());
-			}
-
-			parsed.add(data);
+		while (values.hasMoreTokens()) {
+			data[i++] = Integer.parseInt(values.nextToken());
 		}
 
-		return parsed;
+		return data;
 	}
 
 	public static int solvePart1(List<int[]> input) {

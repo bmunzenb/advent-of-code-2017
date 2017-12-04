@@ -1,10 +1,14 @@
 package com.munzenberger.advent;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws URISyntaxException, IOException {
 
 		println("Advent of Code 2017 Solutions (http://adventofcode.com/2017)");
 
@@ -17,26 +21,11 @@ public class Main {
 
 		println("--- Day 2: Corruption Checksum ---");
 
-		final List<int[]> DAY2_INPUT = CorruptionChecksum.parse(
-				"179	2358	5197	867	163	4418	3135	5049	187	166	4682	5080	5541	172	4294	1397\r\n" + 
-				"2637	136	3222	591	2593	1982	4506	195	4396	3741	2373	157	4533	3864	4159	142\r\n" + 
-				"1049	1163	1128	193	1008	142	169	168	165	310	1054	104	1100	761	406	173\r\n" + 
-				"200	53	222	227	218	51	188	45	98	194	189	42	50	105	46	176\r\n" + 
-				"299	2521	216	2080	2068	2681	2376	220	1339	244	605	1598	2161	822	387	268\r\n" + 
-				"1043	1409	637	1560	970	69	832	87	78	1391	1558	75	1643	655	1398	1193\r\n" + 
-				"90	649	858	2496	1555	2618	2302	119	2675	131	1816	2356	2480	603	65	128\r\n" + 
-				"2461	5099	168	4468	5371	2076	223	1178	194	5639	890	5575	1258	5591	6125	226\r\n" + 
-				"204	205	2797	2452	2568	2777	1542	1586	241	836	3202	2495	197	2960	240	2880\r\n" + 
-				"560	96	336	627	546	241	191	94	368	528	298	78	76	123	240	563\r\n" + 
-				"818	973	1422	244	1263	200	1220	208	1143	627	609	274	130	961	685	1318\r\n" + 
-				"1680	1174	1803	169	450	134	3799	161	2101	3675	133	4117	3574	4328	3630	4186\r\n" + 
-				"1870	3494	837	115	1864	3626	24	116	2548	1225	3545	676	128	1869	3161	109\r\n" + 
-				"890	53	778	68	65	784	261	682	563	781	360	382	790	313	785	71\r\n" + 
-				"125	454	110	103	615	141	562	199	340	80	500	473	221	573	108	536\r\n" + 
-				"1311	64	77	1328	1344	1248	1522	51	978	1535	1142	390	81	409	68	352");
+		final Path day2source = pathFor("CorruptionChecksum.txt");
+		final List<int[]> day2Decoded = CorruptionChecksum.decode(day2source);
 
-		println("Part One: %d", CorruptionChecksum.solvePart1(DAY2_INPUT));
-		println("Part Two: %d", CorruptionChecksum.solvePart2(DAY2_INPUT));
+		println("Part One: %d", CorruptionChecksum.solvePart1(day2Decoded));
+		println("Part Two: %d", CorruptionChecksum.solvePart2(day2Decoded));
 
 		println("--- Day 3: Spiral Memory ---");
 
@@ -44,9 +33,19 @@ public class Main {
 
 		println("Part One: %d", SpiralMemory.solvePart1(DAY3_INPUT));
 		println("Part Two: %d", SpiralMemory.solvePart2(DAY3_INPUT));
+
+		println("--- Day 4: High-Entropy Passphrases ---");
+
+		final Path day4source = pathFor("HighEntropyPassphrases.txt");
+
+		println("Part One: %d", HighEntropyPassphrases.countValid(day4source));
 	}
 
 	private static void println(String format, Object...args) {
 		System.out.println(String.format(format, args));
+	}
+
+	private static Path pathFor(String resource) throws URISyntaxException {
+		return Paths.get(Main.class.getResource(resource).toURI());
 	}
 }
