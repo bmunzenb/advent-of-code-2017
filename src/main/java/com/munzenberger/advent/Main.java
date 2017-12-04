@@ -39,7 +39,7 @@ public class Main {
 		final Path day4source = pathFor("HighEntropyPassphrases.txt");
 
 		println("Part One: %d", HighEntropyPassphrases.countValid(day4source));
-		println("Part One: %d", HighEntropyPassphrases.countValidWithoutAnagrams(day4source));
+		println("Part Two: %d", HighEntropyPassphrases.countValidWithoutAnagrams(day4source));
 	}
 
 	private static void println(String format, Object...args) {

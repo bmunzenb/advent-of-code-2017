@@ -37,6 +37,7 @@ public class HighEntropyPassphrases {
 
 		StringTokenizer tokens = new StringTokenizer(passphrase);
 		while (tokens.hasMoreTokens()) {
+
 			String word = tokens.nextToken();
 			word = func.apply(word);
 
