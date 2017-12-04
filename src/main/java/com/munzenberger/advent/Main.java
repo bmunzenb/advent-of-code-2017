@@ -43,6 +43,7 @@ public class Main {
 		final int DAY3_INPUT = 265149;
 
 		println("Part One: %d", SpiralMemory.solvePart1(DAY3_INPUT));
+		println("Part Two: %d", SpiralMemory.solvePart2(DAY3_INPUT));
 	}
 
 	private static void println(String format, Object...args) {
