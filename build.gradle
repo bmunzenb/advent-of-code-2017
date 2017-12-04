@@ -1,12 +1,20 @@
-apply plugin: 'java'
-apply plugin: 'application'
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'application'
 
-mainClassName = "com.munzenberger.advent.Main"
+	mainClassName = "advent.Main"
 
-repositories {
-    jcenter()
-}
+	tasks.withType(JavaCompile) {
+		options.encoding = 'UTF-8'
+		sourceCompatibility = '1.8'
+		targetCompatibility = '1.8'
+	}
 
-dependencies {
-    testCompile 'junit:junit:4.12'
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		testCompile 'junit:junit:4.+'
+	}
 }
