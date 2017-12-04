@@ -1,6 +1,5 @@
 package com.munzenberger.advent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -38,6 +37,12 @@ public class Main {
 
 		println("Part One: %d", CorruptionChecksum.solvePart1(DAY2_INPUT));
 		println("Part Two: %d", CorruptionChecksum.solvePart2(DAY2_INPUT));
+
+		println("--- Day 3: Spiral Memory ---");
+
+		final int DAY3_INPUT = 265149;
+
+		println("Part One: %d", SpiralMemory.solvePart1(DAY3_INPUT));
 	}
 
 	private static void println(String format, Object...args) {
