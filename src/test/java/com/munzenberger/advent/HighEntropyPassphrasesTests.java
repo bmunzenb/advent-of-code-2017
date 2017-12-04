@@ -14,4 +14,14 @@ public class HighEntropyPassphrasesTests {
 		assertFalse(HighEntropyPassphrases.isValid("aa bb cc dd aa"));
 		assertTrue(HighEntropyPassphrases.isValid("aa bb cc dd aaa"));
 	}
+
+	@Test
+	public void isValidWithoutAnagrams() {
+
+		assertTrue(HighEntropyPassphrases.isValidWithoutAnagrams("abcde fghij"));
+		assertFalse(HighEntropyPassphrases.isValidWithoutAnagrams("abcde xyz ecdab"));
+		assertTrue(HighEntropyPassphrases.isValidWithoutAnagrams("a ab abc abd abf abj"));
+		assertTrue(HighEntropyPassphrases.isValidWithoutAnagrams("iiii oiii ooii oooi oooo"));
+		assertFalse(HighEntropyPassphrases.isValidWithoutAnagrams("oiii ioii iioi iiio"));
+	}
 }
