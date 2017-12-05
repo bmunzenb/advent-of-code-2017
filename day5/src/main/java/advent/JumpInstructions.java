@@ -3,6 +3,7 @@ package advent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Function;
 
 public class JumpInstructions {
 
@@ -13,25 +14,16 @@ public class JumpInstructions {
 
 	public static int steps(int[] input) {
 
-		int index = 0;
-		int steps = 0;
-
-		while (input.length > index && index >= 0) {
-
-			steps++;
-
-			int jump = input[index];
-
-			input[index]++;
-
-			index += jump;
-		}
-
-		return steps;
+		return steps(input, i -> 1);
 	}
 
 	public static int stepsWithComplication(int[] input) {
 
+		return steps(input, i -> i >= 3 ? -1 : 1);
+	}
+
+	private static int steps(int[] input, Function<Integer, Integer> func) {
+
 		int index = 0;
 		int steps = 0;
 
@@ -41,12 +33,7 @@ public class JumpInstructions {
 
 			int jump = input[index];
 
-			if (jump >= 3) {
-				input[index]--;
-			}
-			else {
-				input[index]++;
-			}
+			input[index] += func.apply(jump);
 
 			index += jump;
 		}
