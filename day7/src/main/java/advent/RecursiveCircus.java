@@ -9,17 +9,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 public class RecursiveCircus {
 
-	public static class Node {
+	public static class Node implements Comparable<Node> {
 
 		public final String name;
 		public int weight;
+		public int totalWeight;
 		public final List<Node> holdingUp = new ArrayList<>();
 
 		public Node(String name) {
 			this.name = name;
+		}
+
+		@Override public int compareTo(Node o) {
+			return this.totalWeight - o.totalWeight;
+		}
+
+		@Override public String toString() {
+			return String.format("%s(%d)->%d", name, weight, totalWeight);
 		}
 	}
 
@@ -28,6 +38,58 @@ public class RecursiveCircus {
 		Map<String, Node> nodes = new HashMap<>();
 		Files.lines(input).forEach(p -> parseInto(p, nodes));
 		return nodes.values();
+	}
+
+	public static int findUnbalanced(Node node) {
+
+		for (Node n : node.holdingUp) {
+			int unbalanced = findUnbalanced(n);
+			if (unbalanced != 0) {
+				return unbalanced;
+			}
+		}
+
+		List<Node> nodes = node.holdingUp
+				.stream()
+				.sorted()
+				.collect(Collectors.toList());
+
+		if (nodes.size() > 1) {
+
+			Node first = nodes.get(0);
+			Node last = nodes.get(nodes.size()-1);
+
+			if (first.totalWeight != last.totalWeight) {
+				if (nodes.size() > 2) {
+					int mid = nodes.get(1).totalWeight;
+					if (first.totalWeight == mid) {
+						// last one is unbalanced
+						return last.weight - (last.totalWeight - mid);
+					}
+					else if (last.totalWeight == mid) {
+						// first one is unbalanced
+						return first.weight + (mid - first.totalWeight);
+					}
+				}
+
+				throw new IllegalStateException("Could not determine unbalance!");
+			}
+		}
+
+		return 0;
+	}
+
+	public static int setTotalWeight(Node node) {
+
+		int total = node.weight;
+
+		for (Node n : node.holdingUp) {
+			total += setTotalWeight(n);
+		}
+
+		node.totalWeight = total;
+
+		return total;
 	}
 
 	public static Node parseInto(String line, Map<String, Node> nodes) {

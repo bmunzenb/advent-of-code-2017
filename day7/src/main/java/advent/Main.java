@@ -18,6 +18,11 @@ public class Main {
 
 		Collection<Node> nodes = RecursiveCircus.parse(source);
 
-		System.out.println(RecursiveCircus.findRoot(nodes).name);
+		Node root = RecursiveCircus.findRoot(nodes);
+		System.out.println(root.name);
+
+		RecursiveCircus.setTotalWeight(root);
+		int unbalanced = RecursiveCircus.findUnbalanced(root);
+		System.out.println(unbalanced);
 	}
 }
