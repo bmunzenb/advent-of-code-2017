@@ -13,6 +13,10 @@ public class Main {
 		final URL resource = Main.class.getResource("Input.txt");
 		final Path source = Paths.get(resource.toURI());
 
-		System.out.println(GarbageCollector.getScore(source));
+		GarbageCollector gc = new GarbageCollector();
+		gc.readPath(source);
+
+		System.out.println(gc.getScore());
+		System.out.println(gc.getCollectedGarbage());
 	}
 }

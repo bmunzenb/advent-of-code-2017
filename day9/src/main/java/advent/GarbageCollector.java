@@ -16,11 +16,11 @@ public class GarbageCollector {
 				.getScore();
 	}
 
-	public static int getScore(Path path) throws IOException {
+	public static int getCollectedGarbage(String string) {
 
 		return new GarbageCollector()
-				.readPath(path)
-				.getScore();
+				.readString(string)
+				.getCollectedGarbage();
 	}
 
 	private enum ReadState {
@@ -31,6 +31,7 @@ public class GarbageCollector {
 	final List<Integer> scoreList = new LinkedList<>();
 
 	int groupDepth = 0;
+	int garbageCollected = 0;
 
 	public GarbageCollector() {
 
@@ -42,6 +43,10 @@ public class GarbageCollector {
 		return scoreList.stream()
 				.mapToInt(i -> i.intValue())
 				.sum();
+	}
+
+	public int getCollectedGarbage() {
+		return garbageCollected;
 	}
 
 	public GarbageCollector readString(String string) {
@@ -124,6 +129,10 @@ public class GarbageCollector {
 
 		case '!':
 			state.addFirst(ReadState.IGNORE);
+			break;
+
+		default:
+			garbageCollected++;
 			break;
 		}
 	}
