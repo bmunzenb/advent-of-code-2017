@@ -6,22 +6,13 @@ import java.util.StringTokenizer;
 
 public class HexGrid {
 
-	public static List<String> parseInput(String input) {
+	int northSouth = 0;
+	int eastWest = 0;
 
-		List<String> list = new ArrayList<>();
+	int maxNorthSouth = 0;
+	int maxEastWest = 0;
 
-		StringTokenizer tokens = new StringTokenizer(input, ",");
-		while (tokens.hasMoreTokens()) {
-			list.add(tokens.nextToken());
-		}
-
-		return list;
-	}
-
-	public static int stepsFromOrigin(List<String> input) {
-
-		int northSouth = 0;
-		int eastWest = 0;
+	public HexGrid takeSteps(List<String> input) {
 
 		for (String d : input) {
 
@@ -54,7 +45,33 @@ public class HexGrid {
 				eastWest--;
 				break;
 			}
+
+			maxNorthSouth = Math.max(maxNorthSouth, Math.abs(northSouth));
+			maxEastWest = Math.max(maxEastWest, Math.abs(eastWest));
 		}
+
+		return this;
+	}
+
+	public static List<String> parseInput(String input) {
+
+		List<String> list = new ArrayList<>();
+
+		StringTokenizer tokens = new StringTokenizer(input, ",");
+		while (tokens.hasMoreTokens()) {
+			list.add(tokens.nextToken());
+		}
+
+		return list;
+	}
+
+	public static int stepsFromOrigin(List<String> input) {
+
+		HexGrid hexGrid = new HexGrid().takeSteps(input);
+		return stepsFromOrigin(hexGrid.northSouth, hexGrid.eastWest);
+	}
+
+	public static int stepsFromOrigin(int northSouth, int eastWest) {
 
 		northSouth = Math.abs(northSouth);
 		eastWest = Math.abs(eastWest);
