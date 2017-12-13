@@ -2,8 +2,8 @@ package advent;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -12,19 +12,20 @@ import advent.PacketScanner.Layer;
 public class PacketScannerTests {
 
 	@Test
-	public void solvePart1() {
+	public void solve() {
 
-		Map<Integer, Layer> layers = new HashMap<>();
+		List<Layer> layers = new ArrayList<>();
 
 		Layer layer0 = PacketScanner.parse("0: 3");
 		assertEquals(0, layer0.depth);
 		assertEquals(3, layer0.range);
 
-		layers.put(0, layer0);
-		layers.put(1, new Layer(1, 2));
-		layers.put(4, new Layer(4, 4));
-		layers.put(6, new Layer(6, 4));
+		layers.add(layer0);
+		layers.add(new Layer(1, 2));
+		layers.add(new Layer(4, 4));
+		layers.add(new Layer(6, 4));
 
 		assertEquals(24, PacketScanner.severityOfTrip(layers));
+		assertEquals(10, PacketScanner.delayEnoughToNotGetCaught(layers));
 	}
 }
