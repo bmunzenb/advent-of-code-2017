@@ -25,9 +25,9 @@ public class KnotHashTests {
 	@Test
 	public void solvePart2() {
 
-		assertEquals("a2582a3a0e66e6e86e3812dcb672a272", KnotHash.solvePart2(""));
-		assertEquals("33efeb34ea91902bb2f59c9920caa6cd", KnotHash.solvePart2("AoC 2017"));
-		assertEquals("3efbe78a8d82f29979031a4aa0b16a9d", KnotHash.solvePart2("1,2,3"));
-		assertEquals("63960835bcdc130f0b66d7ff4f6a5a8e", KnotHash.solvePart2("1,2,4"));
+		assertEquals("a2582a3a0e66e6e86e3812dcb672a272", KnotHash.generate(""));
+		assertEquals("33efeb34ea91902bb2f59c9920caa6cd", KnotHash.generate("AoC 2017"));
+		assertEquals("3efbe78a8d82f29979031a4aa0b16a9d", KnotHash.generate("1,2,3"));
+		assertEquals("63960835bcdc130f0b66d7ff4f6a5a8e", KnotHash.generate("1,2,4"));
 	}
 }

@@ -24,7 +24,7 @@ public class KnotHash {
 		return list[0] * list[1];
 	}
 
-	public static String solvePart2(String input) {
+	public static String generate(String input) {
 
 		int[] list = defaultList();
 
