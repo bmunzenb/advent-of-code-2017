@@ -9,5 +9,6 @@ public class Main {
 		final boolean[][] grid = DiskDefrag.generateGrid("jxqlasbh");
 
 		System.out.println(DiskDefrag.countTotalUsedSquares(grid));
+		System.out.println(DiskDefrag.countRegions(grid));
 	}
 }

@@ -12,5 +12,6 @@ public class DiskDefragTests {
 		boolean[][] grid = DiskDefrag.generateGrid("flqrgnkx");
 
 		assertEquals(8108, DiskDefrag.countTotalUsedSquares(grid));
+		assertEquals(1242, DiskDefrag.countRegions(grid));
 	}
 }
