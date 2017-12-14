@@ -7,8 +7,10 @@ import org.junit.Test;
 public class DiskDefragTests {
 
 	@Test
-	public void convertToBits() {
+	public void solve() {
 
-		assertEquals(8108, DiskDefrag.countTotalUsedSquares("flqrgnkx"));
+		boolean[][] grid = DiskDefrag.generateGrid("flqrgnkx");
+
+		assertEquals(8108, DiskDefrag.countTotalUsedSquares(grid));
 	}
 }

@@ -6,8 +6,8 @@ public class Main {
 
 	public static void main(String[] args) throws URISyntaxException {
 
-		final String input = "jxqlasbh";
+		final boolean[][] grid = DiskDefrag.generateGrid("jxqlasbh");
 
-		System.out.println(DiskDefrag.countTotalUsedSquares(input));
+		System.out.println(DiskDefrag.countTotalUsedSquares(grid));
 	}
 }
