@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigInteger;
-
 import org.junit.Test;
 
 public class GeneratorTests {
@@ -13,51 +11,51 @@ public class GeneratorTests {
 	@Test
 	public void next() {
 
-		Generator genA = new Generator(new BigInteger("16807")).start(new BigInteger("65"));
+		Generator genA = new Generator(16807).start(65);
 
-		assertEquals(new BigInteger("1092455"), genA.next());
-		assertEquals(new BigInteger("1181022009"), genA.next());
-		assertEquals(new BigInteger("245556042"), genA.next());
-		assertEquals(new BigInteger("1744312007"), genA.next());
-		assertEquals(new BigInteger("1352636452"), genA.next());
+		assertEquals(1092455L, genA.next());
+		assertEquals(1181022009L, genA.next());
+		assertEquals(245556042L, genA.next());
+		assertEquals(1744312007L, genA.next());
+		assertEquals(1352636452L, genA.next());
 	}
 
 	@Test
 	public void compareLowest16Bits() {
 
-		assertFalse(Generator.compareLowest16Bits(new BigInteger("1092455"), new BigInteger("430625591")));
-		assertFalse(Generator.compareLowest16Bits(new BigInteger("1181022009"), new BigInteger("1233683848")));
-		assertTrue(Generator.compareLowest16Bits(new BigInteger("245556042"), new BigInteger("1431495498")));
-		assertFalse(Generator.compareLowest16Bits(new BigInteger("1744312007"), new BigInteger("137874439")));
-		assertFalse(Generator.compareLowest16Bits(new BigInteger("1352636452"), new BigInteger("285222916")));
+		assertFalse(Generator.compareLowest16Bits(1092455L, 430625591L));
+		assertFalse(Generator.compareLowest16Bits(1181022009L, 1233683848L));
+		assertTrue(Generator.compareLowest16Bits(245556042L, 1431495498L));
+		assertFalse(Generator.compareLowest16Bits(1744312007L, 137874439L));
+		assertFalse(Generator.compareLowest16Bits(1352636452L, 285222916L));
 	}
 
 	@Test
 	public void compareTwoGenerators() {
 
-		Generator genA = new Generator(new BigInteger("16807")).start(new BigInteger("65"));
-		Generator genB = new Generator(new BigInteger("48271")).start(new BigInteger("8921"));
+		Generator genA = new Generator(16807).start(65);
+		Generator genB = new Generator(48271).start(8921);
 
-		BigInteger fortyMillion = new BigInteger("40000000");
+		long fortyMillion = 40000000L;
 
-		assertEquals(new BigInteger("588"), Generator.compareLowest16Bits(genA, genB, fortyMillion));
+		assertEquals(588, Generator.compareLowest16Bits(genA, genB, fortyMillion));
 
-		genA.start(new BigInteger("65")).multiple(new BigInteger("4"));
-		genB.start(new BigInteger("8921")).multiple(new BigInteger("8"));
+		genA.start(65).multiple(4);
+		genB.start(8921).multiple(8);
 
-		BigInteger fiveMillion = new BigInteger("5000000");
+		long fiveMillion = 5000000L;
 
-		assertEquals(new BigInteger("309"), Generator.compareLowest16Bits(genA, genB, fiveMillion));
+		assertEquals(309, Generator.compareLowest16Bits(genA, genB, fiveMillion));
 	}
 
 	@Test
 	public void compareTwoGeneratorsWithMultiples() {
 
-		Generator genA = new Generator(new BigInteger("16807")).start(new BigInteger("65")).multiple(new BigInteger("4"));
-		Generator genB = new Generator(new BigInteger("48271")).start(new BigInteger("8921")).multiple(new BigInteger("8"));
+		Generator genA = new Generator(16807).start(65).multiple(4);
+		Generator genB = new Generator(48271).start(8921).multiple(8);
 
-		BigInteger fiveMillion = new BigInteger("5000000");
+		long fiveMillion = 5000000L;
 
-		assertEquals(new BigInteger("309"), Generator.compareLowest16Bits(genA, genB, fiveMillion));
+		assertEquals(309, Generator.compareLowest16Bits(genA, genB, fiveMillion));
 	}
 }

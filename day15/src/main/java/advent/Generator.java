@@ -1,61 +1,59 @@
 package advent;
 
-import java.math.BigInteger;
-
 public class Generator {
 
-	private final BigInteger factor;
-	private final BigInteger divisor = new BigInteger("2147483647");
+	private final long factor;
+	private final long divisor = 2147483647;
 
-	private BigInteger multiple = BigInteger.ONE;
-	private BigInteger previous;
+	private long multiple = 1;
+	private long previous;
 
-	public Generator(BigInteger factor) {
+	public Generator(long factor) {
 		this.factor = factor;
 	}
 
-	public Generator start(BigInteger start) {
+	public Generator start(long start) {
 		this.previous = start;
 		return this;
 	}
 
-	public Generator multiple(BigInteger multiple) {
+	public Generator multiple(long multiple) {
 		this.multiple = multiple;
 		return this;
 	}
 
-	public BigInteger next() {
+	public long next() {
 
 		do {
-			previous = previous.multiply(factor).mod(divisor);
+			previous = (previous * factor) % divisor;
 
-		} while (!previous.mod(multiple).equals(BigInteger.ZERO));
+		} while (previous % multiple != 0);
 
 		return previous;
 	}
 
-	private static final BigInteger filter16Bits = new BigInteger("ffff", 16);
+	private static final long filter16Bits = 0xffff;
 
-	public static boolean compareLowest16Bits(BigInteger a, BigInteger b) {
+	public static boolean compareLowest16Bits(long a, long b) {
 
-		BigInteger a16 = a.and(filter16Bits);
-		BigInteger b16 = b.and(filter16Bits);
+		long a16 = a & filter16Bits;
+		long b16 = b & filter16Bits;
 
-		return a16.equals(b16);
+		return a16 == b16;
 	}
 
-	public static BigInteger compareLowest16Bits(Generator genA, Generator genB, BigInteger iterations) {
+	public static long compareLowest16Bits(Generator genA, Generator genB, long iterations) {
 
-		BigInteger count = BigInteger.ZERO;
+		long count = 0;
 
-		while (iterations.compareTo(BigInteger.ZERO) > 0) {
+		while (iterations > 0) {
 
 			boolean result = compareLowest16Bits(genA.next(), genB.next());
 			if (result) {
-				count = count.add(BigInteger.ONE);
+				count++;
 			}
 
-			iterations = iterations.subtract(BigInteger.ONE);
+			iterations--;
 		}
 
 		return count;
