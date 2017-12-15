@@ -41,5 +41,23 @@ public class GeneratorTests {
 		BigInteger fortyMillion = new BigInteger("40000000");
 
 		assertEquals(new BigInteger("588"), Generator.compareLowest16Bits(genA, genB, fortyMillion));
+
+		genA.start(new BigInteger("65")).multiple(new BigInteger("4"));
+		genB.start(new BigInteger("8921")).multiple(new BigInteger("8"));
+
+		BigInteger fiveMillion = new BigInteger("5000000");
+
+		assertEquals(new BigInteger("309"), Generator.compareLowest16Bits(genA, genB, fiveMillion));
+	}
+
+	@Test
+	public void compareTwoGeneratorsWithMultiples() {
+
+		Generator genA = new Generator(new BigInteger("16807")).start(new BigInteger("65")).multiple(new BigInteger("4"));
+		Generator genB = new Generator(new BigInteger("48271")).start(new BigInteger("8921")).multiple(new BigInteger("8"));
+
+		BigInteger fiveMillion = new BigInteger("5000000");
+
+		assertEquals(new BigInteger("309"), Generator.compareLowest16Bits(genA, genB, fiveMillion));
 	}
 }

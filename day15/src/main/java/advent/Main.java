@@ -13,5 +13,12 @@ public class Main {
 		BigInteger fortyMillion = new BigInteger("40000000");
 
 		System.out.println(Generator.compareLowest16Bits(genA	, genB, fortyMillion));
+
+		genA.start(new BigInteger("618")).multiple(new BigInteger("4"));
+		genB.start(new BigInteger("814")).multiple(new BigInteger("8"));
+
+		BigInteger fiveMillion = new BigInteger("5000000");
+
+		System.out.println(Generator.compareLowest16Bits(genA	, genB, fiveMillion));
 	}
 }

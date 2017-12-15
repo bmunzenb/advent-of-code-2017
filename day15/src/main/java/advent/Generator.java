@@ -7,6 +7,7 @@ public class Generator {
 	private final BigInteger factor;
 	private final BigInteger divisor = new BigInteger("2147483647");
 
+	private BigInteger multiple = BigInteger.ONE;
 	private BigInteger previous;
 
 	public Generator(BigInteger factor) {
@@ -18,9 +19,18 @@ public class Generator {
 		return this;
 	}
 
+	public Generator multiple(BigInteger multiple) {
+		this.multiple = multiple;
+		return this;
+	}
+
 	public BigInteger next() {
 
-		previous = previous.multiply(factor).mod(divisor);
+		do {
+			previous = previous.multiply(factor).mod(divisor);
+
+		} while (!previous.mod(multiple).equals(BigInteger.ZERO));
+
 		return previous;
 	}
 
