@@ -1,5 +1,8 @@
 package advent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PermutationPromenade {
 
 	public static String spin(String str, int spin) {
@@ -12,8 +15,8 @@ public class PermutationPromenade {
 
 		StringBuffer sb = new StringBuffer(str);
 
-		char ac = sb.charAt(a);
-		char bc = sb.charAt(b);
+		char ac = str.charAt(a);
+		char bc = str.charAt(b);
 
 		sb.setCharAt(a, bc);
 		sb.setCharAt(b, ac);
@@ -25,8 +28,8 @@ public class PermutationPromenade {
 
 		StringBuffer sb = new StringBuffer(str);
 
-		int indexA = sb.indexOf(Character.toString(a));
-		int indexB = sb.indexOf(Character.toString(b));
+		int indexA = str.indexOf(a);
+		int indexB = str.indexOf(b);
 
 		sb.setCharAt(indexA, b);
 		sb.setCharAt(indexB, a);
@@ -71,8 +74,40 @@ public class PermutationPromenade {
 		return str;
 	}
 
+	public static int findCycle(String str, String[] moves) {
+
+		List<String> results = new ArrayList<>();
+
+		while (!results.contains(str)) {
+
+			//System.out.println(results.size() + ": " + str);
+
+			results.add(str);
+			str = dance(str, moves);
+		}
+
+		int index = results.indexOf(str);
+
+		//System.out.println("found match: " + str + " at index " + index);
+
+		int cycle = results.size() - index;
+
+		//System.out.println("cycle = " + cycle);
+
+		return cycle;
+	}
+
 	public static String[] parseMoves(String input) {
 
 		return input.split(",");
+	}
+
+	public static String danceALot(String input, String[] moves, int iterations) {
+
+		for (int i = 0; i < iterations; i++) {
+			input = dance(input, moves);
+		}
+
+		return input;
 	}
 }
