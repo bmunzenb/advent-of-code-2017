@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class PacketScanner {
 
-	public static class Layer implements Comparable<Layer> {
+	public static class Layer {
 
 		final int depth;
 		final int range;
@@ -42,17 +42,12 @@ public class PacketScanner {
 
 			return period;
 		}
-
-		@Override public int compareTo(Layer other) {
-			return this.depth - other.depth;
-		}
 	}
 
 	public static List<Layer> parse(Path path) throws IOException {
 
 		return Files.lines(path)
 				.map(PacketScanner::parse)
-				.sorted()
 				.collect(Collectors.toList());
 	}
 
