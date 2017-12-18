@@ -21,11 +21,11 @@ public class Duet {
 		}
 	}
 
-	private final Map<String, Long> registers = new HashMap<>();
+	protected final Map<String, Long> registers = new HashMap<>();
 	private final List<Instruction> instructions;
 
 	private long lastSound = 0;
-	private int pc = 0;
+	protected int pc = 0;
 
 	public Duet(List<Instruction> instructions) {
 		this.instructions = instructions;
@@ -40,7 +40,7 @@ public class Duet {
 		return i == null ? 0 : i.longValue();
 	}
 
-	private long value(String x) {
+	protected long value(String x) {
 
 		try {
 			return Integer.parseInt(x);
@@ -50,10 +50,9 @@ public class Duet {
 		}
 	}
 
-	private void snd(String x) {
+	protected void snd(String x) {
 
 		lastSound = value(x);
-		System.out.print(", last=" + lastSound);
 		pc++;
 	}
 
@@ -84,7 +83,7 @@ public class Duet {
 		pc++;
 	}
 
-	private boolean rcv(String x) {
+	protected boolean rcv(String x) {
 
 		pc++;
 		return value(x) != 0;
@@ -94,7 +93,6 @@ public class Duet {
 
 		if (value(x) > 0) {
 			long jump = value(y);
-			System.out.print(", jump:" + jump);
 			pc += jump;
 		}
 		else {
@@ -144,19 +142,8 @@ public class Duet {
 
 	public boolean executeNextInstruction() {
 
-		System.out.print("pc: " + pc);
 		Instruction i = instructions.get(pc);
-		System.out.print(", " + i);
-		boolean recovered = execute(i);
-		System.out.print(", " + registers);
-
-		if (recovered) {
-			System.out.print(", recovered: " + lastSound());
-		}
-
-		System.out.println();
-
-		return recovered;
+		return execute(i);
 	}
 
 	public Duet executeUntilRecover() {
