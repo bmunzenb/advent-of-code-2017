@@ -125,7 +125,7 @@ public class ParticleSwarm {
 
 	public static int collide(List<Particle> particles) {
 
-		List<Particle> left = new ArrayList<>(particles);
+		List<Particle> alive = new ArrayList<>(particles);
 
 		int ticksSinceLastCollision = 0;
 
@@ -133,32 +133,34 @@ public class ParticleSwarm {
 		// there won't be any more.  feels so dirty, though...
 		while (ticksSinceLastCollision < 100) {
 
-			ticksSinceLastCollision++;
-
-			left.stream().forEach(p -> p.update());
+			alive.stream().forEach(p -> p.update());
 
 			List<Particle> collisions = new ArrayList<>();
 
-			for (Particle p1 : left) {
-				for (Particle p2 : left) {
-					if (p1 != p2) {
-						if (p1.position.equals(p2.position)) {
-							collisions.add(p1);
-							collisions.add(p2);
-						}
+			for (int x = 0; x < alive.size()-1; x++) {
+				Particle p1 = alive.get(x);
+
+				for (int y = x+1; y < alive.size(); y++) {
+					Particle p2 = alive.get(y);
+
+					if (p1.position.equals(p2.position)) {
+
+						collisions.add(p1);
+						collisions.add(p2);
 					}
 				}
 			}
 
-			if (collisions.isEmpty()) {
-				ticksSinceLastCollision++;
+			if (!collisions.isEmpty()) {
+
+				alive.removeAll(collisions);
+				ticksSinceLastCollision = 0;
 			}
 			else {
-				left.removeAll(collisions);
-				ticksSinceLastCollision = 0;
+				ticksSinceLastCollision++;
 			}
 		}
 
-		return left.size();
+		return alive.size();
 	}
 }
