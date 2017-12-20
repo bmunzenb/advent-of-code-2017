@@ -32,6 +32,19 @@ public class ParticleStormTests {
 
 		List<Particle> particles = Arrays.asList(p1, p2);
 
-		assertEquals(0, ParticleSwarm.slowest(particles).id);
+		assertEquals(0, ParticleSwarm.closest(particles).id);
+	}
+
+	@Test
+	public void collide() {
+
+		Particle p1 = ParticleSwarm.parseParticle(0, "p=<-6,0,0>, v=< 3,0,0>, a=< 0,0,0>");
+		Particle p2 = ParticleSwarm.parseParticle(1, "p=<-4,0,0>, v=< 2,0,0>, a=< 0,0,0>");
+		Particle p3 = ParticleSwarm.parseParticle(2, "p=<-2,0,0>, v=< 1,0,0>, a=< 0,0,0>");
+		Particle p4 = ParticleSwarm.parseParticle(3, "p=< 3,0,0>, v=<-1,0,0>, a=< 0,0,0>");
+
+		List<Particle> particles = Arrays.asList(p1, p2, p3, p4);
+
+		assertEquals(1, ParticleSwarm.collide(particles));
 	}
 }

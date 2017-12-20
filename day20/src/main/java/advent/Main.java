@@ -18,6 +18,7 @@ public class Main {
 
 		List<Particle> particles = ParticleSwarm.parse(source);
 
-		System.out.println(ParticleSwarm.slowest(particles).id);
+		System.out.println(ParticleSwarm.closest(particles).id);
+		System.out.println(ParticleSwarm.collide(particles));
 	}
 }

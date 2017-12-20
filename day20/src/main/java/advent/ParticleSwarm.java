@@ -3,6 +3,7 @@ package advent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -11,29 +12,33 @@ public class ParticleSwarm {
 
 	public static class Triple {
 
-		public final int x;
-		public final int y;
-		public final int z;
+		public final long x;
+		public final long y;
+		public final long z;
 
-		private Triple(int x, int y, int z) {
+		private Triple(long x, long y, long z) {
 
 			this.x = x;
 			this.y = y;
 			this.z = z;
 		}
 
-		public int distance() {
+		public long distance() {
 
 			return Math.abs(x) + Math.abs(y) + Math.abs(z);
 		}
 
 		public Triple add(Triple addend) {
 
-			int x = this.x + addend.x;
-			int y = this.y + addend.y;
-			int z = this.z + addend.z;
+			long x = this.x + addend.x;
+			long y = this.y + addend.y;
+			long z = this.z + addend.z;
 
 			return new Triple(x, y, z);
+		}
+
+		public boolean equals(Triple other) {
+			return this.x == other.x && this.y == other.y && this.z == other.z;
 		}
 	}
 
@@ -93,14 +98,14 @@ public class ParticleSwarm {
 
 		String[] split = input.split(",");
 
-		int x = Integer.parseInt(split[0].trim());
-		int y = Integer.parseInt(split[1].trim());
-		int z = Integer.parseInt(split[2].trim());
+		long x = Long.parseLong(split[0].trim());
+		long y = Long.parseLong(split[1].trim());
+		long z = Long.parseLong(split[2].trim());
 
 		return new Triple(x, y, z);
 	}
 
-	public static Particle slowest(List<Particle> particles) {
+	public static Particle closest(List<Particle> particles) {
 
 		Particle slowest = particles.get(0);
 
@@ -109,8 +114,51 @@ public class ParticleSwarm {
 			if (p.acceleration.distance() < slowest.acceleration.distance()) {
 				slowest = p;
 			}
+
+			// could have checked for matching accelerations and compared velocities and
+			// positions, but our input doesn't have any that match, or the first known slowest
+			// just happened to be the right answer
 		}
 
 		return slowest;
+	}
+
+	public static int collide(List<Particle> particles) {
+
+		List<Particle> left = new ArrayList<>(particles);
+
+		int ticksSinceLastCollision = 0;
+
+		// assume that if we make it 100 ticks without a collision,
+		// there won't be any more.  feels so dirty, though...
+		while (ticksSinceLastCollision < 100) {
+
+			ticksSinceLastCollision++;
+
+			left.stream().forEach(p -> p.update());
+
+			List<Particle> collisions = new ArrayList<>();
+
+			for (Particle p1 : left) {
+				for (Particle p2 : left) {
+					if (p1 != p2) {
+						if (p1.position.equals(p2.position)) {
+							collisions.add(p1);
+							collisions.add(p2);
+						}
+					}
+				}
+			}
+
+			if (collisions.isEmpty()) {
+				ticksSinceLastCollision++;
+			}
+			else {
+				left.removeAll(collisions);
+				ticksSinceLastCollision = 0;
+			}
+		}
+
+		return left.size();
 	}
 }
