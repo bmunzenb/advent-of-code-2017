@@ -14,13 +14,13 @@ public class FractalArt {
 
 		public final String pattern;
 		public final int size;
-		private final Set<String> matching;
+		private final String[] split;
 
 		public Pattern(String pattern) {
 
 			this.pattern = pattern;
 			this.size = pattern.indexOf('/');
-			this.matching = matchingSet(pattern);
+			this.split = pattern.split("/");
 		}
 
 		public Pattern(Pattern[][] patterns) {
@@ -116,8 +116,6 @@ public class FractalArt {
 
 			StringBuffer sb = new StringBuffer();
 
-			String[] split = pattern.split("/");
-
 			for (int i = y; i < y + size; i++) {
 				for (int j = x; j < x + size; j++) {
 					sb.append(split[i].charAt(j));
@@ -173,6 +171,20 @@ public class FractalArt {
 
 			return sb.toString();
 		}
+	}
+
+	public static class Rule {
+
+		private final Pattern from;
+		private final Pattern to;
+		private final Set<String> matching;
+
+		public Rule(Pattern from, Pattern to) { 
+
+			this.from = from;
+			this.to = to;
+			this.matching = matchingSet(from.pattern);
+		}
 
 		public boolean matches(Pattern pattern) {
 
@@ -196,18 +208,6 @@ public class FractalArt {
 
 			return matching;
 		}
-	}
-
-	public static class Rule {
-
-		private final Pattern from;
-		private final Pattern to;
-
-		public Rule(Pattern from, Pattern to) { 
-
-			this.from = from;
-			this.to = to;
-		}
 
 		@Override public String toString() {
 
@@ -226,7 +226,7 @@ public class FractalArt {
 				final int y = j;
 
 				split[x][y] = rules.stream()
-						.filter(r -> r.from.matches(split[x][y]))
+						.filter(r -> r.matches(split[x][y]))
 						.map(r -> r.to)
 						.findFirst()
 						.get();

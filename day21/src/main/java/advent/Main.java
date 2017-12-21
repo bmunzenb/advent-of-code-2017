@@ -21,16 +21,11 @@ public class Main {
 
 		Pattern pattern = new Pattern(".#./..#/###");
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 1; i <= 18; i++) {
 			pattern = FractalArt.process(pattern, rules);
+			if (i == 5 || i == 18) {
+				System.out.println(pattern.countPixels());
+			}
 		}
-
-		System.out.println(pattern.countPixels());
-
-		for (int i = 5; i < 18; i++) {
-			pattern = FractalArt.process(pattern, rules);
-		}
-
-		System.out.println(pattern.countPixels());
 	}
 }
