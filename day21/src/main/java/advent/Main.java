@@ -23,16 +23,14 @@ public class Main {
 
 		for (int i = 0; i < 5; i++) {
 			pattern = FractalArt.process(pattern, rules);
-			//System.out.println(pattern);
 		}
 
 		System.out.println(pattern.countPixels());
 
-		//for (int i = 5; i < 18; i++) {
-		//	pattern = FractalArt.process(pattern, rules);
-		//	System.out.println(pattern);
-		//}
+		for (int i = 5; i < 18; i++) {
+			pattern = FractalArt.process(pattern, rules);
+		}
 
-		//System.out.println(pattern.countPixels());
+		System.out.println(pattern.countPixels());
 	}
 }
