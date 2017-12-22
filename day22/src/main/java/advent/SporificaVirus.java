@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SporificaVirus {
@@ -109,6 +110,41 @@ public class SporificaVirus {
 				return null;
 			}
 		}
+
+		protected Direction reverse() {
+			switch (this) {
+			case UP:
+				return DOWN;
+			case DOWN:
+				return UP;
+			case LEFT:
+				return RIGHT;
+			case RIGHT:
+				return LEFT;
+			default:
+				return null;
+			}
+		}
+	}
+
+	public static enum Status {
+
+		CLEAN, WEAKENED, INFECTED, FLAGGED;
+
+		protected Status next() {
+			switch (this) {
+			case CLEAN:
+				return WEAKENED;
+			case WEAKENED:
+				return INFECTED;
+			case INFECTED:
+				return FLAGGED;
+			case FLAGGED:
+				return CLEAN;
+			default:
+				return this;
+			}
+		}
 	}
 
 	private Direction direction = Direction.UP;
@@ -143,6 +179,46 @@ public class SporificaVirus {
 
 		for (int i = 0; i < moves; i++) {
 			total += move(infected) ? 1 : 0;
+		}
+
+		return total;
+	}
+
+	public boolean move(Map<Point, Status> points) {
+
+		Status status = points.getOrDefault(point, Status.CLEAN);
+
+		switch (status) {
+
+		case CLEAN:
+			direction = direction.turnLeft();
+			break;
+
+		case WEAKENED:
+			break;
+
+		case INFECTED:
+			direction = direction.turnRight();
+			break;
+
+		case FLAGGED:
+			direction = direction.reverse();
+			break;
+		}
+
+		status = status.next();
+		points.put(point, status);
+		point = point.move(direction);
+
+		return status == Status.INFECTED;
+	}
+
+	public int moveAndCountInfections(Map<Point, Status> points, int moves) {
+
+		int total = 0;
+
+		for (int i = 0; i < moves; i++) {
+			total += move(points) ? 1 : 0;
 		}
 
 		return total;
