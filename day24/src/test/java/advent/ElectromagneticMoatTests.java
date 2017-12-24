@@ -30,5 +30,6 @@ public class ElectromagneticMoatTests {
 
 		assertEquals(11, bridges.size());
 		assertEquals(31, ElectromagneticMoat.strongest(bridges));
+		assertEquals(19, ElectromagneticMoat.longestAndStrongest(bridges));
 	}
 }

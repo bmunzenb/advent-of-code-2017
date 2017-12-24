@@ -1,8 +1,12 @@
 package advent;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ElectromagneticMoat {
 
@@ -32,43 +36,6 @@ public class ElectromagneticMoat {
 			return pins1 + pins2;
 		}
 
-		/*
-		@Override
-		public int hashCode() {
-
-			final int prime = 31;
-
-			int result = 1;
-
-			result = prime * result + pins1;
-			result = prime * result + pins2;
-
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-
-			if (this == obj)
-				return true;
-
-			if (obj == null)
-				return false;
-
-			if (getClass() != obj.getClass())
-				return false;
-
-			Port other = (Port) obj;
-
-			if (pins1 != other.pins1)
-				return false;
-
-			if (pins2 != other.pins2)
-				return false;
-
-			return true;
-		}
-		*/
 		@Override
 		public String toString() {
 			return "Port(" + pins1 + "/" + pins2 + ")";
@@ -169,5 +136,36 @@ public class ElectromagneticMoat {
 	public static int strongest(List<Bridge> bridges) {
 
 		return bridges.stream().mapToInt(b -> b.strength()).max().getAsInt();
+	}
+
+	public static int longestAndStrongest(List<Bridge> bridges) {
+
+		int longest = bridges.stream()
+				.mapToInt(b -> b.ports.size())
+				.max()
+				.getAsInt();
+
+		return bridges.stream()
+				.filter(b -> b.ports.size() == longest)
+				.mapToInt(b -> b.strength())
+				.max()
+				.getAsInt();
+	}
+
+	public static List<Port> parse(Path path) throws IOException {
+
+		return Files.lines(path)
+				.map(ElectromagneticMoat::parse)
+				.collect(Collectors.toList());
+	}
+
+	private static Port parse(String str) {
+
+		String[] split = str.split("/");
+
+		int pins1 = Integer.parseInt(split[0]);
+		int pins2 = Integer.parseInt(split[1]);
+
+		return new Port(pins1, pins2);
 	}
 }
