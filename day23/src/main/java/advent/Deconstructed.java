@@ -12,7 +12,7 @@ public class Deconstructed {
 		long b = 0;
 		long c = 0;
 		long d = 0;
-		long e = 0;
+//		long e = 0;
 		long f = 0;
 		long g = 0;
 		long h = 0;
@@ -31,30 +31,16 @@ public class Deconstructed {
 		do {
 
 			f = 1;
-			d = 2;
 
-			do {
-
-				e = 2;
-
-				do {
-
-					g = (d * e) - b;
-
-					if (g == 0) {
+			for (d = 2; d < b; d++) {
+//				for (e = 2; e < b; e++) {
+//					if (d * e == b) {
+					if (b % d == 0) {
 						f = 0;
+						break;
 					}
-
-					e += 1;
-					g = e - b;
-
-				} while (g != 0);
-
-				d -= -1;
-				g = d;
-				g -= b;
-
-			} while (g != 0);
+//				}
+			}
 
 			if (f == 0) {
 				h -= -1;
