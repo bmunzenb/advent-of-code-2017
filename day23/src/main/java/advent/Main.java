@@ -21,8 +21,6 @@ public class Main {
 		Coprocessor processor = new Coprocessor(input);
 		System.out.println(processor.executeAndCountInstructions("mul"));
 
-		//processor = new Coprocessor(input);
-		//processor.set("a", "0");
-		//System.out.println(processor.execute().register("h"));
+		//System.out.println(Deconstructed.execute());
 	}
 }
