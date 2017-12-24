@@ -42,7 +42,7 @@ public class ElectromagneticMoat {
 		}
 	}
 
-	public static class Bridge {
+	public static class Bridge implements Comparable<Bridge> {
 
 		private int endPins;
 		private final List<Port> ports = new ArrayList<>();
@@ -93,6 +93,13 @@ public class ElectromagneticMoat {
 
 			return sb.toString();
 		}
+
+		@Override public int compareTo(Bridge other) {
+
+			int result = other.ports.size() - ports.size();
+
+			return result == 0 ? other.strength() - strength() : result;
+		}
 	}
 
 	public static List<Bridge> buildBridges(List<Port> ports) {
@@ -135,21 +142,19 @@ public class ElectromagneticMoat {
 
 	public static int strongest(List<Bridge> bridges) {
 
-		return bridges.stream().mapToInt(b -> b.strength()).max().getAsInt();
+		return bridges.stream()
+				.mapToInt(b -> b.strength())
+				.max()
+				.getAsInt();
 	}
 
 	public static int longestAndStrongest(List<Bridge> bridges) {
 
-		int longest = bridges.stream()
-				.mapToInt(b -> b.ports.size())
-				.max()
-				.getAsInt();
-
 		return bridges.stream()
-				.filter(b -> b.ports.size() == longest)
-				.mapToInt(b -> b.strength())
-				.max()
-				.getAsInt();
+				.sorted()
+				.findFirst()
+				.get()
+				.strength();
 	}
 
 	public static List<Port> parse(Path path) throws IOException {
